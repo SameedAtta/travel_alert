@@ -20,7 +20,7 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
     ports:
-    - ${LOCAL_PORT_MARIA_DB}:${LOCAL_PORT_DOCKER}
+    - ${LOCAL_PORT_MARIA_DB}:${DOCKER_PORT_MARIA_DB}
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -31,5 +31,5 @@ services:
       PMA_ARBITRARY: 1
     restart: always
     ports:
-      - ${PHP_MYADMIN_PORT}:${PHP_MYADMIN_PORT}
+      - ${PHP_MYADMIN_PORT}:${PHP_MYADMIN_DOCKER_PORT}
 
