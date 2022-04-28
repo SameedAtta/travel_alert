@@ -11,16 +11,16 @@ services:
     volumes:
       - .:/code
     ports:
-      - 8020:8000
+      - ${FAST_API_PORT}:${FAST_API_DOCKER_PORT}
     command: python main.py
 
   db:
     image: mariadb
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: example
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
     ports:
-    - 3305:3306
+    - ${LOCAL_PORT_MARIA_DB}:${LOCAL_PORT_DOCKER}
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -31,5 +31,5 @@ services:
       PMA_ARBITRARY: 1
     restart: always
     ports:
-      - 8081:80
+      - ${PHP_MYADMIN_PORT}:${PHP_MYADMIN_PORT}
 
