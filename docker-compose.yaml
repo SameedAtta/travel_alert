@@ -12,16 +12,18 @@ services:
       - .:/code
     ports:
       - ${FAST_API_PORT}:${FAST_API_DOCKER_PORT}
-    command: alembic upgrade head && python main.py
+    command: python main.py
+    depends_on:
+      - db
 
   db:
     image: mariadb
     container_name: db
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_PASSWORD}
     ports:
-      - ${LOCAL_PORT_MARIA_DB}:${DOCKER_PORT_MARIA_DB}
+      - ${MARIADB_PORT}:${MARIADB_DOCKER_PORT}
     volumes:
       - ./db-data:/docker-entrypoint-initdb.d
 
