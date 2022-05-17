@@ -39,3 +39,20 @@ services:
     ports:
       - ${PHP_MYADMIN_LOCAL_PORT}:${PHP_MYADMIN_DOCKER_PORT}
 
+  selenium-hub:
+      container_name: selenium-hub
+      image: selenium/hub:3.141.59-zirconium
+      ports:
+        - "4444:4444"
+    # Spawn chrome browser for selenium configurations
+  selenium-chrome:
+    container_name: selenium-chrome
+    image: selenium/node-chrome:3.141.59-zirconium
+    volumes:
+      - /dev/shm:/dev/shm
+    environment:
+      HUB_HOST: selenium-hub
+      HUB_PORT: 4444
+    deploy:
+        replicas: 1
+    entrypoint: bash -c 'SE_OPTS="-host $$HOSTNAME" /opt/bin/entry_point.sh'
