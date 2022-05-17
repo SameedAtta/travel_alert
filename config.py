@@ -33,7 +33,7 @@ class DevConfig(Config):
     MARIADB_USER = config('MARIADB_USER')
     MARIADB_PASSWORD = config("MARIADB_PASSWORD")
     
-    
+    SELENIUM_URL = 'localhost'
 
     
 class TestConfig(Config):
@@ -45,7 +45,7 @@ class TestConfig(Config):
     MARIADB_USER = config('MARIADB_USER', cast=str)
     MARIADB_PASSWORD = config("MARIADB_PASSWORD", cast=str)
     
-    
+    SELENIUM_URL = 'selenium-hub'
     
     
 
@@ -53,7 +53,7 @@ class ProdConfig(Config):
     ENV = 'production'
     DEBUG = False
     TESTING = False
-
+    # DATABASE_URI = environ.get('PROD_DATABASE_URI')
 
 def get_env():
     if TEMP_ENV == 'development':
