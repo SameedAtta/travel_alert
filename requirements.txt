@@ -2,3 +2,4 @@ fastapi >=0.68.0,<0.69.0
 uvicorn[standard]
 PyMySQL
 python-decouple
+pyodbc

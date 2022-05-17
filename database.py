@@ -1,20 +1,24 @@
 import pyodbc
 import sqlalchemy
-from decouple import config
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from config import get_env
+
+
+app_config = get_env()
+
 
 # todo: async connection comes here
 # not working with mmsql
 # from sqlalchemy.ext.asyncio import create_async_engine
 # from sqlalchemy.ext.asyncio import AsyncSession
 
-db_host = config("db", default="localhost", cast=str)
-db_port = config("3306", default=3305, cast=int)
-db_user = config("root", default="root")
-db_pass = config("MARIADB_ROOT_PASSWORD", default="example")
-db_name = config("travel_db", default="travel_db")
+db_host = app_config.MARIADB_HOST
+db_port = app_config.MARIADB_PORT
+db_user = app_config.MARIADB_USER
+db_pass = app_config.MARIADB_PASSWORD
+db_name = app_config.DATABASE_NAME
 
 db_uri = sqlalchemy.engine.url.URL.create(
         drivername="mysql+pymysql",
