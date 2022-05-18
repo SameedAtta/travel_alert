@@ -19,8 +19,12 @@ db_port = app_config.MARIADB_PORT
 db_user = app_config.MARIADB_USER
 db_pass = app_config.MARIADB_PASSWORD
 db_name = app_config.DATABASE_NAME
-
-db_uri = sqlalchemy.engine.url.URL.create(
+    
+    
+engine = create_engine(
+    # Equivalent URL:
+    # mysql+pymysql://<db_user>:<db_pass>@<db_host>:<db_port>/<db_name>
+    sqlalchemy.engine.url.URL.create(
         drivername="mysql+pymysql",
         username=db_user,  # e.g. "my-database-user"
         password=db_pass,  # e.g. "my-database-password"
@@ -30,13 +34,7 @@ db_uri = sqlalchemy.engine.url.URL.create(
         # query={
         #     "driver": "ODBC Driver 17 for SQL Server",  # make sure install mssql in local/docker
         # },
-    )
-    
-    
-engine = create_engine(
-    # Equivalent URL:
-    # mysql+pymysql://<db_user>:<db_pass>@<db_host>:<db_port>/<db_name>
-    db_uri,
+    ),
     echo=True,
     pool_pre_ping=True,
 )

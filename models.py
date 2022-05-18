@@ -19,7 +19,7 @@ def insert_data(data=None):
         #statement = text("INSERT INTO travel_db.alert_info (country_name, travel_alerts, status_date, link, information, key_encode) VALUES (:country_name, :travel_alerts, :status_date, :link, :information, :key_encode)")
         #statement = text("INSERT INTO travel_db.alert_info (country_name, travel_alerts, status_date, link, information, key_encode ) VALUES (:country_name, :travel_alerts, :status_date, :link, :information, :key_encode) ON DUPLICATE KEY UPDATE travel_alerts = travel_alerts, status_date = status_date, information = information")
 
-    statement = text("INSERT INTO travel_db.alert_info (country_name, travel_alerts, status_date, link, information, key_encode ) VALUES (:country_name, :travel_alerts, :status_date, :link, :information, :key_encode) ON DUPLICATE KEY UPDATE travel_alerts = travel_alerts, status_date = status_date, information = information")   
-    con.execute(statement, data)
-    print("please wait inserting data")
+        statement = text("INSERT INTO travel_db.alert_info (country_name, travel_alerts, status_date, link, information, key_encode ) VALUES (:country_name, :travel_alerts, :status_date, :link, :information, :key_encode) ON DUPLICATE KEY UPDATE travel_alerts = travel_alerts, status_date = status_date, information = information")   
+        con.execute(statement, data)
+        print("please wait inserting data")
 

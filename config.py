@@ -34,7 +34,7 @@ class DevConfig(Config):
     MARIADB_PASSWORD = config("MARIADB_PASSWORD")
     
     SELENIUM_URL = 'localhost'
-    APP_PORT = MARIADB_PORT
+    APP_PORT = config('FAST_API_PORT', cast=int)
     
 
     
@@ -49,7 +49,7 @@ class TestConfig(Config):
     
     SELENIUM_URL = 'selenium-hub'
     
-    APP_PORT = MARIADB_PORT
+    APP_PORT = config('FAST_API_DOCKER_PORT', cast=int)
     
 
 class ProdConfig(Config):
@@ -69,10 +69,3 @@ def get_env():
         app_config = ProdConfig()
         return app_config
     
-def get_port_env():
-    if TEMP_ENV == 'development':
-        app_config = DevConfig().APP_PORT
-        return app_config
-    if TEMP_ENV == 'testing':
-        app_config = TestConfig().APP_PORT
-        return app_config

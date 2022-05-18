@@ -82,7 +82,7 @@ def load_page(driver):
     return table_row
 def get_anchor_Links(table_row):
     data = []
-    for tr in table_row[0:3]:
+    for tr in table_row:
         td_list = tr.find_all('td')
         link = td_list[0].find('a').get('href')
         country_name = td_list[0].text
@@ -95,11 +95,11 @@ def get_anchor_Links(table_row):
         )
     return data
    
-
+#  /content/travel/en/traveladvisories/traveladvisories/netherlands-travel-advisory.html
 
 def get_scraped_table_data(data, driver):
     data_list=[]
-    for i in data[0:3]:
+    for i in data:
         print(i['link'])
         link = i['link']
         driver.get(f'https://travel.state.gov{link}')
@@ -108,3 +108,5 @@ def get_scraped_table_data(data, driver):
         i['information'] = text_data
         data_list.append(i)
     return data_list
+
+

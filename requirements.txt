@@ -4,3 +4,10 @@ PyMySQL
 python-decouple
 selenium
 pyodbc
+beautifulsoup4
+pandas
+SQLAlchemy
+python-decouple
+lxml
+alembic
+ipython
