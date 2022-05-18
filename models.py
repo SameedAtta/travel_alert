@@ -14,9 +14,7 @@ def insert_data(data=None):
     
         if data is None:
             print("data is missing to inesrt")
-            return None
-        elif (data):
-            return data
+            return 
         
         #statement = text("INSERT INTO travel_db.alert_info (country_name, travel_alerts, status_date, link, information, key_encode) VALUES (:country_name, :travel_alerts, :status_date, :link, :information, :key_encode)")
         #statement = text("INSERT INTO travel_db.alert_info (country_name, travel_alerts, status_date, link, information, key_encode ) VALUES (:country_name, :travel_alerts, :status_date, :link, :information, :key_encode) ON DUPLICATE KEY UPDATE travel_alerts = travel_alerts, status_date = status_date, information = information")
