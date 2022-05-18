@@ -34,6 +34,8 @@ class DevConfig(Config):
     MARIADB_PASSWORD = config("MARIADB_PASSWORD")
     
     SELENIUM_URL = 'localhost'
+    APP_PORT = config('FAST_API_PORT', cast=int)
+    
 
     
 class TestConfig(Config):
@@ -47,6 +49,7 @@ class TestConfig(Config):
     
     SELENIUM_URL = 'selenium-hub'
     
+    APP_PORT = config('FAST_API_DOCKER_PORT', cast=int)
     
 
 class ProdConfig(Config):
