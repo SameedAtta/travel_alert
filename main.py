@@ -2,7 +2,7 @@ from typing import Optional
 
 import uvicorn
 from fastapi import FastAPI
-from config import config
+from config import get_port_env
 
 from scraper import (get_anchor_Links, get_scraped_table_data, insert_data,
                      load_driver_properties, load_page)
@@ -24,7 +24,7 @@ def run_scrapper():
 def read_item(item_id: int, q: Optional[str] = None):
     return {"item_id": item_id, "q": q}
 
-TEMP_FAST_API_DOCKER_PORT = config('FAST_API_DOCKER_PORT')
+temp_port = get_port_env()
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=TEMP_FAST_API_DOCKER_PORT, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=temp_port, reload=True)
