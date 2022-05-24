@@ -1,20 +1,20 @@
 version: '3'
 
 services:
-  # python_app:
-  #   container_name: python_app
-  #   build: .
-  #   # image: continuumio/miniconda
-  #   stdin_open: true
-  #   tty: true
-  #   restart: always
-  #   volumes:
-  #     - .:/code
-  #   ports:
-  #     - ${FAST_API_PORT}:${FAST_API_DOCKER_PORT}
-  #   # command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
-  #   depends_on:
-  #      - migration_app
+  python_app:
+    container_name: python_app
+    build: .
+    # image: continuumio/miniconda
+    stdin_open: true
+    tty: true
+    restart: always
+    volumes:
+      - .:/code
+    ports:
+      - ${FAST_API_PORT}:${FAST_API_DOCKER_PORT}
+    # command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+    depends_on:
+       - migration_app
 
 
   migration_app:
@@ -30,6 +30,7 @@ services:
       db:
         condition: service_healthy
 
+
   db:
     image: mariadb
     container_name: db
@@ -42,9 +43,6 @@ services:
       - ./db-data:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -P 3306 -pexample | grep 'mysqld is alive' || exit 1"]
-      # test: "/usr/local/mysql/bin/mysql --user=foo --password=foo --execute \"SHOW DATABASES;\""
-    
-
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
