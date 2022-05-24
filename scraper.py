@@ -47,7 +47,7 @@ def load_driver_properties():
     option.add_argument("start-maximized")
     option.add_experimental_option("excludeSwitches", ["enable-logging"])
 
-    # if isHeadless: option.add_argument('--headless')
+    #if isHeadless: option.add_argument('--headless')
     option.add_argument('--no-sandbox')
     option.add_argument("--disable-extensions")
     option.add_argument("--disable-popup-blocking")
@@ -71,7 +71,7 @@ def load_driver_properties():
             command_executor=f'http://{app_config.SELENIUM_URL}:4444/wd/hub'
         )
         return driver
-
+   
 
 def load_page(driver):
     driver.get('https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories.html/')
@@ -110,3 +110,84 @@ def get_scraped_table_data(data, driver):
     return data_list
 
 
+def canadian_website_load_page(driver):
+    driver.get('https://travel.gc.ca/travelling/advisories')
+    time.sleep(5)
+    soup = BeautifulSoup(driver.page_source, "lxml")
+    table_row = soup.select('#reportlist > tbody > tr > td')
+    return table_row
+
+def get_anchor_Links_of_canadian_website(table_row,driver):
+    data = []
+    for tr in table_row[0:1]:
+        link = tr.get('href')
+        page_url = f"https://travel.gc.ca{link}"
+        print(page_url)
+        driver.get(page_url)
+        
+        
+        #country-name text
+        h1 = driver.find_element_by_css_selector('h1#wb-cont')
+        country_name = ' '.join(h1.text.split(' ')[:-2])
+        
+        #canadian_key_encode
+        
+        canadian_key_encode = base64.b64encode(country_name.encode()).decode()
+        
+        #travel-alert
+        span_alert = driver.find_element_by_css_selector('span#riskLevelBanner')
+        alert_text = span_alert.text
+        
+        
+        #Update fate and Time
+        span_update_date_and_time = driver.find_element_by_css_selector('span#lastUpdateDateLbl')
+        last_updated = span_update_date_and_time
+        
+        
+        #Risk link title
+        risk_title = driver.find_element_by_css_selector('span#title-risk')
+        risk_heading = risk_title.text
+        
+        
+        #Risk link text
+        risk_body_text = driver.find_element_by_css_selector('div#risk')
+        risk_information = risk_body_text.text
+        
+        
+        #security link text
+        security_of_country =  driver.find_element_by_css_selector('div#security')
+        country_security = security_of_country.text
+        
+        
+        #entry and exit procedure link text
+        entry_exit =  driver.find_element_by_css_selector('div#entryexit')
+        criteria = entry_exit.text
+        
+        #health link text
+        health_div =  driver.find_element_by_css_selector('div#health')
+        health = health_div.text
+        
+        #laws text
+        law_div =  driver.find_element_by_css_selector('div#laws')
+        laws = law_div.text
+        
+        #natural-disaster text
+        natural_disaster_div =  driver.find_element_by_css_selector('div#disasters')
+        natural_disaster = natural_disaster_div.text
+        
+        #sending data to data list according to tables
+        data.append(
+           {'country_name': country_name, "alert_text":alert_text, 'last_updated':last_updated, 'risk_heading':risk_heading, 'risk_information': risk_information, 'country_security':country_security, 'criteria':criteria, 'health':health, 'laws':laws, 'natural_disaster':natural_disaster, 'canadian_key_encode':canadian_key_encode}
+         )
+    return data
+
+# def get_scraped_table_data_of_canadian_website(data):
+#     data_list=[]
+#     for i in data:
+#         # print(i['country_name'])
+#         # print(i['alert_text'])
+#         # print(i['last_updated'])
+#         # print(i['risk_heading'])
+#         # time.sleep(1)
+#         data_list.append(i)
+#     return data_list
