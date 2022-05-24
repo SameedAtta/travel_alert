@@ -3,12 +3,14 @@ from typing import Optional
 import uvicorn
 from fastapi import FastAPI
 from config import get_env
-
-from scraper import (get_anchor_Links, get_scraped_table_data, insert_data,
-                     load_driver_properties, load_page)
+from models import (insert_data_usa_website, insert_data_canadian_website)
+from scraper import (get_anchor_Links, get_scraped_table_data,
+                     load_driver_properties, load_page, canadian_website_load_page, get_anchor_Links_of_canadian_website)
 
 app = FastAPI()
 app_config = get_env()
+
+# insert funciton need to be fixed and  called from models file
 
 @app.get("/run_scrapper")
 def run_scrapper():
@@ -16,11 +18,22 @@ def run_scrapper():
     page_loader = load_page(driver)
     data_in_lists = get_anchor_Links(page_loader)
     scraped_data = get_scraped_table_data(data_in_lists, driver)
-    insert_data(scraped_data)
+    insert_data_usa_website(scraped_data)
     driver.quit()
     
     return {'status': 200, 'massage': 'code running completed'}
     
+
+
+@app.get("/run_canadian_website_scrapper")
+def run_scrapper():
+    driver = load_driver_properties()
+    page_loader = canadian_website_load_page(driver)
+    scraped_data = get_anchor_Links_of_canadian_website(page_loader, driver)
+    insert_data_canadian_website(scraped_data)
+    driver.quit()
+    
+    return {'status': 200, 'massage': 'code running completed'}
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Optional[str] = None):
@@ -29,4 +42,4 @@ def read_item(item_id: int, q: Optional[str] = None):
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=get_env().APP_PORT, reload=True)
