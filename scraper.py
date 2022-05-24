@@ -18,7 +18,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from bs4 import BeautifulSoup
 import pandas as pd
-from models import insert_data
 from decouple import config
 from config import get_env
 # from fastapi import HTTPException
@@ -114,15 +113,16 @@ def canadian_website_load_page(driver):
     driver.get('https://travel.gc.ca/travelling/advisories')
     time.sleep(5)
     soup = BeautifulSoup(driver.page_source, "lxml")
-    table_row = soup.select('#reportlist > tbody > tr > td')
+    table_row = soup.select('#reportlist > tbody > tr > td > a')
     return table_row
 
 def get_anchor_Links_of_canadian_website(table_row,driver):
     data = []
-    for tr in table_row[0:1]:
+    for tr in table_row:
         link = tr.get('href')
         page_url = f"https://travel.gc.ca{link}"
         print(page_url)
+        
         driver.get(page_url)
         
         
@@ -141,7 +141,7 @@ def get_anchor_Links_of_canadian_website(table_row,driver):
         
         #Update fate and Time
         span_update_date_and_time = driver.find_element_by_css_selector('span#lastUpdateDateLbl')
-        last_updated = span_update_date_and_time
+        last_updated = span_update_date_and_time.text
         
         
         #Risk link title
@@ -191,3 +191,6 @@ def get_anchor_Links_of_canadian_website(table_row,driver):
 #         # time.sleep(1)
 #         data_list.append(i)
 #     return data_list
+
+
+
