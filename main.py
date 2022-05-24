@@ -3,7 +3,9 @@ from typing import Optional
 import uvicorn
 from fastapi import FastAPI
 from config import get_env
+
 from models import (insert_data_usa_website, insert_data_canadian_website)
+
 from scraper import (get_anchor_Links, get_scraped_table_data,
                      load_driver_properties, load_page, canadian_website_load_page, get_anchor_Links_of_canadian_website)
 
