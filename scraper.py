@@ -72,14 +72,14 @@ def load_driver_properties():
         return driver
    
 
-def load_page(driver):
+def load_page_for_usa_website(driver):  
     driver.get('https://travel.state.gov/content/travel/en/traveladvisories/traveladvisories.html/')
     time.sleep(5)
     soup = BeautifulSoup(driver.page_source, "lxml")
     table_row = soup.select('#tableNum_1 > div > table > tbody > tr.rowDisplay')
     
     return table_row
-def get_anchor_Links(table_row):
+def get_anchor_links_for_usa_website(table_row):
     data = []
     for tr in table_row:
         td_list = tr.find_all('td')
@@ -96,7 +96,7 @@ def get_anchor_Links(table_row):
    
 #  /content/travel/en/traveladvisories/traveladvisories/netherlands-travel-advisory.html
 
-def get_scraped_table_data(data, driver):
+def get_scraped_table_data_of_usa_website(data, driver):
     data_list=[]
     for i in data:
         print(i['link'])
@@ -116,7 +116,7 @@ def canadian_website_load_page(driver):
     table_row = soup.select('#reportlist > tbody > tr > td > a')
     return table_row
 
-def get_anchor_Links_of_canadian_website(table_row,driver):
+def get_anchor_links_of_canadian_website(table_row,driver):
     data = []
     for tr in table_row:
         link = tr.get('href')
@@ -181,16 +181,6 @@ def get_anchor_Links_of_canadian_website(table_row,driver):
          )
     return data
 
-# def get_scraped_table_data_of_canadian_website(data):
-#     data_list=[]
-#     for i in data:
-#         # print(i['country_name'])
-#         # print(i['alert_text'])
-#         # print(i['last_updated'])
-#         # print(i['risk_heading'])
-#         # time.sleep(1)
-#         data_list.append(i)
-#     return data_list
 
 
 
