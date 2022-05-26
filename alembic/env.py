@@ -1,11 +1,15 @@
 from logging.config import fileConfig
+import alembic
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
+import sqlalchemy
 
 from alembic import context
+from config import TestConfig
 
-from database import db_uri
+alembic_db_config = TestConfig()
+print(alembic_db_config)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -26,6 +30,18 @@ target_metadata = None
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+
+db_uri = sqlalchemy.engine.url.URL.create(
+            drivername="mysql+pymysql",
+            username=alembic_db_config.MARIADB_USER,  # e.g. "my-database-user"
+            password=alembic_db_config.MARIADB_PASSWORD,  # e.g. "my-database-password"
+            host=alembic_db_config.MARIADB_HOST,  # e.g. "127.0.0.1"
+            port=alembic_db_config.MARIADB_PORT,  # e.g. 3306
+            database=alembic_db_config.DATABASE_NAME,  # e.g. "my-database-name"
+            # query={
+            #     "driver": "ODBC Driver 17 for SQL Server",  # make sure install mssql in local/docker
+            # },
+    )
 
 
 def run_migrations_offline():
