@@ -6,8 +6,8 @@ from config import get_env
 
 from models import (insert_data_usa_website, insert_data_canadian_website)
 
-from scraper import (get_anchor_Links, get_scraped_table_data,
-                     load_driver_properties, load_page, canadian_website_load_page, get_anchor_Links_of_canadian_website)
+from scraper import (get_anchor_links_for_usa_website, get_scraped_table_data_of_usa_website,
+                     load_driver_properties, load_page_for_usa_website, canadian_website_load_page, get_anchor_links_of_canadian_website)
 
 app = FastAPI()
 app_config = get_env()
@@ -17,9 +17,9 @@ app_config = get_env()
 @app.get("/run_scrapper")
 def run_scrapper():
     driver = load_driver_properties()
-    page_loader = load_page(driver)
-    data_in_lists = get_anchor_Links(page_loader)
-    scraped_data = get_scraped_table_data(data_in_lists, driver)
+    page_loader = load_page_for_usa_website(driver)
+    data_in_lists = get_anchor_links_for_usa_website(page_loader)
+    scraped_data = get_scraped_table_data_of_usa_website(data_in_lists, driver)
     insert_data_usa_website(scraped_data)
     driver.quit()
     
@@ -31,7 +31,7 @@ def run_scrapper():
 def run_scrapper():
     driver = load_driver_properties()
     page_loader = canadian_website_load_page(driver)
-    scraped_data = get_anchor_Links_of_canadian_website(page_loader, driver)
+    scraped_data = get_anchor_links_of_canadian_website(page_loader, driver)
     insert_data_canadian_website(scraped_data)
     driver.quit()
     
